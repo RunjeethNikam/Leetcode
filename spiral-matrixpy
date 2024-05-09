@@ -1,0 +1,37 @@
+class Solution:
+    def spiralOrder(self, matrix: list[list[int]]) -> list[int]:
+        i = 0
+        j = len(matrix[0]) - 1
+        k = len(matrix) - 1
+        l = 0
+        res = []
+
+        while i<= k and l <= j:
+            for col in range(l, j+1):
+                res.append(matrix[i][col])
+            i += 1
+
+            if not (i<= k and l <= j):
+                break
+
+            for row in range(i, k+1):
+                res.append(matrix[row][j])
+            j -= 1
+
+            if not (i<= k and l <= j):
+                break
+
+            for col in range(j, l - 1, -1):
+                res.append(matrix[k][col])
+            k -= 1
+
+            if not (i<= k and l <= j):
+                break
+
+            for row in range(k, i-1, -1):
+                res.append(matrix[row][l])
+            l += 1
+        
+        return res
+        
+print(Solution().spiralOrder([[1,2,3],[4,5,6],[7,8,9]]))
