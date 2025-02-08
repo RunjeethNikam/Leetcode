@@ -1,25 +1,18 @@
 from collections import Counter
 
 
-
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
-        w1 = Counter(word1)
-        w2 = Counter(word2)
-        result = 0
+        l1 = len(word1)
+        l2 = len(word2)
+        dp = [[0] * (l2 + 1) for _ in range((l1 + 1))]
+        for i in range(1, l1 + 1):
+            for j in range(1, l2 + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        return dp[-1][-1]
 
-        for ch, value in w1.items():
-            if ch in w2:
-                result += max(value - w2[ch], 0)
-            else:
-                result += value
-        
-        for ch, value in w2.items():
-            if ch in w1:
-                result += max(value - w1[ch], 0)
-            else:
-                result += value
-        
-        return result
 
-print(Solution().minDistance('leetcode', 'etco'))
+print(Solution().minDistance("leetcode", "etco"))
