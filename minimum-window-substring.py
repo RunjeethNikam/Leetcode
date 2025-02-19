@@ -30,5 +30,4 @@ class Solution:
                             
         return result_str
 
-
 print(Solution().minWindow("bbaa", "aba"))
