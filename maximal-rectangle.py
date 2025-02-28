@@ -44,13 +44,17 @@ class Solution:
         r = float("-inf")
         for index, value in enumerate(given):
             while st[-1][1] > value:
-                _, height = st.pop()
-                r = max(r, height * (index - st[-1][0] - 1))
-
+                j, height = st.pop()
+                if st:
+                    r = max(r, height * (index - st[-1][0] - 1))
+                else:
+                    r = max(r, height * (index - j))
             st.append((index, value))
-        while st:
-            _, height = st.pop()
-            r = max(r, height * (len(given) - st[-1][0] - 1))
+        left = -1
+        right = st[-1][0]
+        for index, (j, height) in enumerate(st):
+            r = max(r, height * (right - left))
+            left = j
         return r
 
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
@@ -58,18 +62,9 @@ class Solution:
         result = [0] * len(matrix[0])
         r = 0
         for m in matrix:
-            result = [a + b for a, b in zip(result, m)]
+            result = [a + b if b != 0 else 0 for a, b in zip(result, m) ]
             r = max(r, self.solve(result))
         return r
 
 
-print(
-    Solution().maximalRectangle(
-        [
-            ["1", "0", "1", "0", "0"],
-            ["1", "0", "1", "1", "1"],
-            ["1", "1", "1", "1", "1"],
-            ["1", "0", "0", "1", "0"],
-        ]
-    )
-)
+print(Solution().maximalRectangle(matrix=[["0", "1"], ["1", "0"]]))
