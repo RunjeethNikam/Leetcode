@@ -1,16 +1,15 @@
 class Solution:
 
-    # def max(self, position):
-    #     return 1<<(position+1)
-
     def rangeBitwiseAnd(self, left: int, right: int) -> int:
         result = 0
-        for i in range(32, -1, -1):
-            if (left & (1 << i)) != (right & (1 << i)):
-                break
+        for i in range(64, -1, -1):
+            msk = 1 << i
+            if (msk & left) == (msk & right):
+                if (msk & left) != 0:
+                    result = result | msk
             else:
-                result += left & (1<<i)
+                return result
         return result
-    
 
-print(Solution().rangeBitwiseAnd(5,7))
+
+print(Solution().rangeBitwiseAnd(left=1, right=1))
